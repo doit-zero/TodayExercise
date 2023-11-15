@@ -7,14 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
-
-    @GetMapping
-    public String test(){
-        return "ddd";
-    }
 
     @PostMapping("/signup")
     public String signup(@RequestBody SingUp signup) {

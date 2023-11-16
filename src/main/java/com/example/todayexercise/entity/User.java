@@ -5,12 +5,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
-public class User {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idx",nullable = false)
@@ -40,6 +42,11 @@ public class User {
         this.createdAt = createdAt;
         this.isDeleted = isDeleted;
     }
+
+    public Boolean isPasswordMatch(PasswordEncoder passwordEncoder,String password) {
+        return passwordEncoder.matches(password,this.password);
+    }
+
 
     public User() {
 

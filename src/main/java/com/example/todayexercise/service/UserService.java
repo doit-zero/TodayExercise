@@ -2,7 +2,7 @@ package com.example.todayexercise.service;
 
 import com.example.todayexercise.dto.request.SingUp;
 import com.example.todayexercise.entity.User;
-import com.example.todayexercise.repository.UserRepository;
+import com.example.todayexercise.repository.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

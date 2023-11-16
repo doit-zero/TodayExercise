@@ -12,3 +12,6 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
 
 
+  redis:
+    port: ${REDIS_PORT}
+    host: ${REDIS_HOST}

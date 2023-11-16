@@ -5,6 +5,8 @@ import com.example.todayexercise.dto.request.SingUp;
 import com.example.todayexercise.entity.User;
 import com.example.todayexercise.exception.domain.CommonErrorCode;
 import com.example.todayexercise.exception.domain.CommonException;
+import com.example.todayexercise.exception.domain.User.UserErrorCode;
+import com.example.todayexercise.exception.domain.User.UserException;
 import com.example.todayexercise.repository.User.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +43,13 @@ public class UserService {
     public String login(Login login, HttpSession session) {
         User user = userRepository.findByEmail(login.getEmail());
         if(user == null || !user.isPasswordMatch(passwordEncoder,login.getPassword()))
-            throw new CommonException(CommonErrorCode.FAIL_TO_SAVE);
+            throw new UserException(UserErrorCode.FAIL_TO_LOGIN);
         session.setAttribute("user",user);
         return session.getId();
+    }
+
+    public String logout(HttpSession session) {
+        session.removeAttribute("user");
+        return "로그아웃 되었습니다.";
     }
 }

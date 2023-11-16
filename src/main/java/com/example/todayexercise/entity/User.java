@@ -47,7 +47,6 @@ public class User implements Serializable {
         return passwordEncoder.matches(password,this.password);
     }
 
-
     public User() {
 
     }

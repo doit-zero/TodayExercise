@@ -7,6 +7,8 @@ import com.example.todayexercise.dto.request.Update;
 import com.example.todayexercise.entity.User;
 import com.example.todayexercise.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -48,13 +50,13 @@ public class UserController {
 
     @Operation(summary = "eamil 중복확인")
     @PostMapping("/check/email/{email}")
-    public CommonResponse<String> checkEmail(@PathVariable String email) {
+    public CommonResponse<String> checkEmail(@Parameter(name = "email") @PathVariable String email) {
         return CommonResponse.success(userService.checkEmail(email));
     }
 
     @Operation(summary = "nickName 중복확인")
     @PostMapping("/check/nickName/{nickName}")
-    public CommonResponse<String> checkNickName(@PathVariable String nickName) {
+    public CommonResponse<String> checkNickName(@Parameter(name = "nickName") @PathVariable String nickName) {
         return CommonResponse.success(userService.checkNickName(nickName));
     }
 

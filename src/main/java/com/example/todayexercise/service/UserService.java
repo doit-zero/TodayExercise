@@ -3,19 +3,18 @@ package com.example.todayexercise.service;
 import com.example.todayexercise.dto.request.Login;
 import com.example.todayexercise.dto.request.SingUp;
 import com.example.todayexercise.entity.User;
-import com.example.todayexercise.exception.domain.CommonErrorCode;
-import com.example.todayexercise.exception.domain.CommonException;
 import com.example.todayexercise.exception.domain.User.UserErrorCode;
 import com.example.todayexercise.exception.domain.User.UserException;
 import com.example.todayexercise.repository.User.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -23,9 +22,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public String signup(SingUp signup) {
-        // TODO 이메일 & 닉네임 중복 검사
-
         User user = User.builder()
                 .email(signup.getEmail())
                 .password(passwordEncoder.encode(signup.getPassword()))
@@ -33,11 +31,9 @@ public class UserService {
                 .nickName(signup.getNickName())
                 .isDeleted(false)
                 .build();
-
         userRepository.save(user);
         return "회원가입 완료";
     }
-
 
     @Transactional(readOnly = true)
     public String login(Login login, HttpSession session) {
@@ -48,8 +44,10 @@ public class UserService {
         return session.getId();
     }
 
-    public String logout(HttpSession session) {
-        session.removeAttribute("user");
+    public String logout(HttpSession session,User user) {
+        if(user == null) throw new UserException(UserErrorCode.NOT_EXIST_USER);
+        log.info("로그아웃된 사용자 이메일 : {}", user.getEmail());
+        session.invalidate();
         return "로그아웃 되었습니다.";
     }
 }

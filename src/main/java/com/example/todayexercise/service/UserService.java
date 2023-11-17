@@ -2,6 +2,7 @@ package com.example.todayexercise.service;
 
 import com.example.todayexercise.dto.request.Login;
 import com.example.todayexercise.dto.request.SingUp;
+import com.example.todayexercise.dto.request.Update;
 import com.example.todayexercise.entity.User;
 import com.example.todayexercise.exception.domain.User.UserErrorCode;
 import com.example.todayexercise.exception.domain.User.UserException;
@@ -49,5 +50,27 @@ public class UserService {
         log.info("로그아웃된 사용자 이메일 : {}", user.getEmail());
         session.invalidate();
         return "로그아웃 되었습니다.";
+    }
+
+
+    @Transactional
+    public String update(User user, Update update) {
+        if(user == null) throw new UserException(UserErrorCode.NOT_EXIST_USER);
+        user.setPassword(passwordEncoder.encode(update.getPassword()));
+        user.setNickName(update.getNickName());
+        userRepository.save(user);
+        return "회원정보 변경 완료";
+    }
+
+    public String checkEmail(String email) {
+        if(userRepository.existsByEmail(email))
+           throw new UserException(UserErrorCode.EXIST_EMAIL) ;
+        return "해당 이메일은 사용 가능합니다.";
+    }
+
+    public String checkNickName(String nickName) {
+        if(userRepository.existsByNickName(nickName))
+            throw new UserException(UserErrorCode.EXIST_NICKNAME) ;
+        return "해당 nickName은 사용 가능합니다.";
     }
 }

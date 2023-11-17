@@ -30,7 +30,7 @@ public class QcardioEx extends EntityPathBase<cardioEx> {
 
     public final BooleanPath isDeleted = createBoolean("isDeleted");
 
-    public final NumberPath<Short> km = createNumber("km", Short.class);
+    public final NumberPath<Integer> km = createNumber("km", Integer.class);
 
     public final QWorkout workoutId;
 

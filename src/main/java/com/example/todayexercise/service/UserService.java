@@ -1,8 +1,8 @@
 package com.example.todayexercise.service;
 
-import com.example.todayexercise.dto.request.Login;
-import com.example.todayexercise.dto.request.SingUp;
-import com.example.todayexercise.dto.request.Update;
+import com.example.todayexercise.dto.request.LoginDTO;
+import com.example.todayexercise.dto.request.SingUpDTO;
+import com.example.todayexercise.dto.request.UserUpdateDTO;
 import com.example.todayexercise.entity.User;
 import com.example.todayexercise.exception.domain.User.UserErrorCode;
 import com.example.todayexercise.exception.domain.User.UserException;
@@ -24,7 +24,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public String signup(SingUp signup) {
+    public String signup(SingUpDTO signup) {
         User user = User.builder()
                 .email(signup.getEmail())
                 .password(passwordEncoder.encode(signup.getPassword()))
@@ -37,9 +37,9 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public String login(Login login, HttpSession session) {
-        User user = userRepository.findByEmail(login.getEmail());
-        if(user == null || !user.isPasswordMatch(passwordEncoder,login.getPassword()))
+    public String login(LoginDTO loginDTO, HttpSession session) {
+        User user = userRepository.findByEmail(loginDTO.getEmail());
+        if(user == null || !user.isPasswordMatch(passwordEncoder, loginDTO.getPassword()))
             throw new UserException(UserErrorCode.FAIL_TO_LOGIN);
         session.setAttribute("user",user);
         return session.getId();
@@ -54,10 +54,10 @@ public class UserService {
 
 
     @Transactional
-    public String update(User user, Update update) {
+    public String update(User user, UserUpdateDTO userUpdateDTO) {
         if(user == null) throw new UserException(UserErrorCode.NOT_EXIST_USER);
-        user.setPassword(passwordEncoder.encode(update.getPassword()));
-        user.setNickName(update.getNickName());
+        user.setPassword(passwordEncoder.encode(userUpdateDTO.getPassword()));
+        user.setNickName(userUpdateDTO.getNickName());
         userRepository.save(user);
         return "회원정보 변경 완료";
     }

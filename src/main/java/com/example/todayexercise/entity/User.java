@@ -6,7 +6,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
 @Setter
 @Getter
 @Entity
@@ -32,7 +31,6 @@ public class User implements Serializable {
     private Boolean isDeleted;
 
     @Builder
-
     public User(String email, String password, String nickName, LocalDateTime createdAt, Boolean isDeleted) {
         this.email = email;
         this.password = password;

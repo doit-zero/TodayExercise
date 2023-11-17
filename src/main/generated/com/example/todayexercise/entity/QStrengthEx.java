@@ -30,13 +30,13 @@ public class QStrengthEx extends EntityPathBase<StrengthEx> {
 
     public final BooleanPath isDeleted = createBoolean("isDeleted");
 
-    public final NumberPath<Short> kg = createNumber("kg", Short.class);
+    public final NumberPath<Integer> kg = createNumber("kg", Integer.class);
 
     public final StringPath part = createString("part");
 
-    public final NumberPath<Short> rep = createNumber("rep", Short.class);
+    public final NumberPath<Integer> rep = createNumber("rep", Integer.class);
 
-    public final NumberPath<Short> set = createNumber("set", Short.class);
+    public final NumberPath<Integer> set = createNumber("set", Integer.class);
 
     public final QWorkout workoutId;
 

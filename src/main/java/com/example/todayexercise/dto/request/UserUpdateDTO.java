@@ -6,16 +6,10 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class SingUp {
-
-    @Schema(description = "이메일 = 로그인 아이디", example = "test@test.com")
-    private String email;
-
+public class UserUpdateDTO {
     @Schema(description = "비밀번호", example = "test1234")
     private String password;
 
     @Schema(description = "로그인 후 보여지는 유저 아이디", example = "DoIt")
     private String nickName;
-
-
 }

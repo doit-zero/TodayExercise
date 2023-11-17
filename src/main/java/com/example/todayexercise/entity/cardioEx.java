@@ -15,7 +15,7 @@ public class cardioEx {
     private String exName;
 
     @Column(name = "km")
-    private Short km;
+    private Integer km;
 
     @Column(name = "createdAt")
     private LocalDateTime createdAt;

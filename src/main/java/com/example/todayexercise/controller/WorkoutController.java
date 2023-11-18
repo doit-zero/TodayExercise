@@ -3,16 +3,17 @@ package com.example.todayexercise.controller;
 import com.example.todayexercise.common.CommonResponse;
 import com.example.todayexercise.entity.User;
 import com.example.todayexercise.service.WorkoutService;
+import com.querydsl.core.Tuple;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @Tag(name = "운동 기록", description = "운동 기록 관련 API")
@@ -25,13 +26,27 @@ public class WorkoutController {
     private final WorkoutService workoutService;
 
     @Operation(summary = "무산소 운동 기록 저장")
-    @PostMapping("/record")
+    @PostMapping("/strengthEx")
     public CommonResponse<String> recordStrengthEx(
             @AuthenticationPrincipal User user,
             @RequestBody Map<String, Object> workoutMap) {
         return CommonResponse.success(workoutService.recordStrengthEx(user,workoutMap));
     }
 
+    @Operation(summary = "유산소 운동 기록 저장")
+    @PostMapping("/cardioEx")
+    public CommonResponse<String> recordCardioEx(
+            @AuthenticationPrincipal User user,
+            @RequestBody Map<String, Object> workoutMap) {
+        return CommonResponse.success(workoutService.recordCardioEx(user,workoutMap));
+    }
 
+
+    @Operation(summary = "오늘 날짜 기준으로 일준일 전 요입별 운동 시간 기록 가져오기")
+    @GetMapping
+    public CommonResponse<List<Map<String,Object>>> getWorkoutList(
+            @AuthenticationPrincipal User user) {
+        return CommonResponse.success(workoutService.getWorkoutList(user));
+    }
 
 }

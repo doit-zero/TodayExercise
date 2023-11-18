@@ -1,11 +1,14 @@
 package com.example.todayexercise.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@RequiredArgsConstructor
 @Entity
-public class cardioEx {
+public class CardioEx {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idx",nullable = false)
@@ -27,4 +30,13 @@ public class cardioEx {
     @JoinColumn(name = "workoutId")
     private Workout workoutId;
 
+    @Builder
+
+    public CardioEx(String exName, Integer km, LocalDateTime createdAt, Boolean isDeleted, Workout workoutId) {
+        this.exName = exName;
+        this.km = km;
+        this.createdAt = createdAt;
+        this.isDeleted = isDeleted;
+        this.workoutId = workoutId;
+    }
 }

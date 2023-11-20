@@ -2,9 +2,7 @@ package com.example.todayexercise.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
-import lombok.Setter;
 
-@Setter
 @Getter
 public class UserUpdateDTO {
     @Schema(description = "비밀번호", example = "test1234")

@@ -41,8 +41,11 @@ public class StrengthEx {
     @JoinColumn(name = "workoutId")
     private Workout workoutId;
 
+    @Column(name = "userId")
+    private Long userId;
+
     @Builder
-    public StrengthEx(String part, String exName, Integer kg, Integer rep, Integer set, LocalDateTime createdAt,Workout workoutId) {
+    public StrengthEx(String part, String exName, Integer kg, Integer rep, Integer set, LocalDateTime createdAt,Workout workoutId,Long userId) {
         this.part = part;
         this.exName = exName;
         this.kg = kg;
@@ -50,6 +53,7 @@ public class StrengthEx {
         this.set = set;
         this.createdAt = createdAt;
         this.workoutId = workoutId;
+        this.userId = userId;
 
     }
 

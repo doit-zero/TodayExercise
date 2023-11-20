@@ -30,13 +30,17 @@ public class CardioEx {
     @JoinColumn(name = "workoutId")
     private Workout workoutId;
 
+    @Column(name = "userId")
+    private Long userId;
+
     @Builder
 
-    public CardioEx(String exName, Integer km, LocalDateTime createdAt, Boolean isDeleted, Workout workoutId) {
+    public CardioEx(String exName, Integer km, LocalDateTime createdAt, Boolean isDeleted, Workout workoutId ,Long userId) {
         this.exName = exName;
         this.km = km;
         this.createdAt = createdAt;
         this.isDeleted = isDeleted;
         this.workoutId = workoutId;
+        this.userId = userId;
     }
 }

@@ -32,6 +32,8 @@ public class QCardioEx extends EntityPathBase<CardioEx> {
 
     public final NumberPath<Integer> km = createNumber("km", Integer.class);
 
+    public final NumberPath<Long> userId = createNumber("userId", Long.class);
+
     public final QWorkout workoutId;
 
     public QCardioEx(String variable) {

@@ -38,6 +38,8 @@ public class QStrengthEx extends EntityPathBase<StrengthEx> {
 
     public final NumberPath<Integer> set = createNumber("set", Integer.class);
 
+    public final NumberPath<Long> userId = createNumber("userId", Long.class);
+
     public final QWorkout workoutId;
 
     public QStrengthEx(String variable) {

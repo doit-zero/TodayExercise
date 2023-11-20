@@ -1,5 +1,9 @@
 package com.example.todayexercise.service;
 
+import com.example.todayexercise.dto.request.CardioExDTO;
+import com.example.todayexercise.dto.request.CardioExRequestDTO;
+import com.example.todayexercise.dto.request.StrengthExDTO;
+import com.example.todayexercise.dto.request.StrengthExRequestDTO;
 import com.example.todayexercise.entity.CardioEx;
 import com.example.todayexercise.entity.StrengthEx;
 import com.example.todayexercise.entity.User;
@@ -11,13 +15,8 @@ import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -29,10 +28,10 @@ public class WorkoutService {
 
 
     @Transactional
-    public String recordStrengthEx(User user, Map<String, Object> workoutMap) {
+    public String recordStrengthEx(User user, StrengthExRequestDTO workoutMap) {
 
-        List<Map<String, Object>> strengthExList = (List<Map<String, Object>>) workoutMap.get("strengthEx");
-        String workTime = workoutMap.get("workTime").toString();
+        List<StrengthExDTO> strengthExList = workoutMap.getStrengthEx();
+        String workTime = workoutMap.getWorkTime();
 
         Workout workout = Workout.builder()
                 .strengthExTime(workTime)
@@ -41,14 +40,15 @@ public class WorkoutService {
                 .build();
         workoutRepository.save(workout);
 
-        for (Map<String, Object> strength : strengthExList) {
+        for (StrengthExDTO strength : strengthExList) {
             StrengthEx strengthEx = StrengthEx.builder()
-                    .part((String) strength.get("part"))
-                    .exName((String) strength.get("exName"))
-                    .kg((Integer) strength.get("kg"))
-                    .rep((Integer) strength.get("rep"))
-                    .set((Integer) strength.get("set"))
+                    .part(strength.getPart())
+                    .exName(strength.getExName())
+                    .kg(strength.getKg())
+                    .rep(strength.getRep())
+                    .set(strength.getSet())
                     .workoutId(workout)
+                    .userId(user.getId())
                     .createdAt(LocalDateTime.now())
                     .build();
             strengthExRepository.save(strengthEx);
@@ -57,9 +57,9 @@ public class WorkoutService {
     }
 
     @Transactional
-    public String recordCardioEx(User user, Map<String, Object> workoutMap) {
-        List<Map<String, Object>> cardioExList = (List<Map<String, Object>>) workoutMap.get("CardioEx");
-        String workTime = workoutMap.get("workTime").toString();
+    public String recordCardioEx(User user, CardioExRequestDTO workoutMap) {
+        List<CardioExDTO> cardioExList = workoutMap.getCardioEx();
+        String workTime = workoutMap.getWorkTime();
 
         Workout workout = Workout.builder()
                 .cardioExTime(workTime)
@@ -68,12 +68,13 @@ public class WorkoutService {
                 .build();
         workoutRepository.save(workout);
 
-        for (Map<String, Object> cardio : cardioExList) {
+        for (CardioExDTO cardio : cardioExList) {
             CardioEx cardioEx = CardioEx.builder()
-                    .exName((String) cardio.get("exName"))
-                    .km((Integer) cardio.get("km"))
+                    .exName(cardio.getExName())
+                    .km(cardio.getKm())
                     .createdAt(LocalDateTime.now())
                     .workoutId(workout)
+                    .userId(user.getId())
                     .build();
 
             cardioExRepository.save(cardioEx);
@@ -94,7 +95,6 @@ public class WorkoutService {
             workoutMap.put("created_At", tuple.get(2, LocalDateTime.class));
             resultList.add(workoutMap);
         }
-
 
         return resultList;
     }

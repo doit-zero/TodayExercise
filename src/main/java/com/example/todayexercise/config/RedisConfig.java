@@ -30,16 +30,4 @@ public class RedisConfig {
         return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
 
-
-//    // redisTemplate을 활용하여 연동 확인해
-//    @Bean
-//    public RedisTemplate<String,Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){
-//        RedisTemplate<String,Object> template = new RedisTemplate<>();
-//        template.setConnectionFactory(redisConnectionFactory);
-//        template.setKeySerializer(new StringRedisSerializer());
-//        template.setValueSerializer(new StringRedisSerializer());
-//
-//        return template;
-//    }
-
 }

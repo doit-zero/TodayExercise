@@ -26,4 +26,20 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .where(user.email.eq(email))
                 .fetchFirst();
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return queryFactory
+                .selectFrom(user)
+                .where(user.email.eq(email))
+                .fetchFirst() != null;
+    }
+
+    @Override
+    public boolean existsByNickName(String nickName) {
+        return queryFactory
+                .selectFrom(user)
+                .where(user.nickName.eq(nickName))
+                .fetchFirst() != null;
+    }
 }

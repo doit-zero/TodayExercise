@@ -19,7 +19,7 @@ import java.util.Collections;
 
 import static java.util.Objects.isNull;
 
-@Component
+
 public class UserAuthenticationFilter extends OncePerRequestFilter{
 
     @Override

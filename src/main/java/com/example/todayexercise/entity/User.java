@@ -1,15 +1,12 @@
 package com.example.todayexercise.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
+@Setter
 @Getter
 @Entity
 public class User implements Serializable {
@@ -34,7 +31,6 @@ public class User implements Serializable {
     private Boolean isDeleted;
 
     @Builder
-
     public User(String email, String password, String nickName, LocalDateTime createdAt, Boolean isDeleted) {
         this.email = email;
         this.password = password;

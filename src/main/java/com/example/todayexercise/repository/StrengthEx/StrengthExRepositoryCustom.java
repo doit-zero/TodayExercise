@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface StrengthExRepositoryCustom {
     List<Tuple> getStrengthEx(User user, LocalDate localDate);
+
+    List<Tuple> getAllStrengthEx(User user);
 }

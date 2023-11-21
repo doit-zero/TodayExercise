@@ -28,13 +28,23 @@ public class StrengthExRepositoryImpl implements StrengthExRepositoryCustom{
         LocalDateTime startOfDay = localDate.atStartOfDay();
         LocalDateTime endOfDay = localDate.atTime(23,59,59);
 
-        QueryResults<Tuple> results = queryFactory
+        return queryFactory
                 .select(qStrengthEx.exName,qStrengthEx.part,qStrengthEx.rep,qStrengthEx.set)
                 .from(qStrengthEx)
                 .where(qStrengthEx.userId.eq(user.getId())
                         .and(qStrengthEx.createdAt.between(startOfDay,endOfDay)))
-                .fetchResults();
+                .fetchResults()
+                .getResults();
 
-        return results.getResults();
+    }
+
+    @Override
+    public List<Tuple> getAllStrengthEx(User user) {
+       return queryFactory
+                .select(qStrengthEx.exName,qStrengthEx.part,qStrengthEx.rep,qStrengthEx.set)
+                .from(qStrengthEx)
+                .where(qStrengthEx.userId.eq(user.getId()))
+                .fetchResults()
+                .getResults();
     }
 }

@@ -30,4 +30,10 @@ public class StrengthExController {
         return CommonResponse.success(strengthExService.getStrengthEx(user, localDate));
     }
 
+    @Operation(summary = "유저 운동 기록 전체 조회")
+    @GetMapping()
+    public CommonResponse<?> getAllStrengthEx(@AuthenticationPrincipal User user) {
+        return CommonResponse.success(strengthExService.getAllStrengthEx(user));
+    }
+
 }

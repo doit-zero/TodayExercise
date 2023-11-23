@@ -15,7 +15,7 @@ public interface WorkoutRepository extends JpaRepository<Workout,Long>,WorkoutRe
             "LEFT JOIN CardioEx ce ON w = ce.workoutId " +
             "LEFT JOIN StrengthEx se ON w = se.workoutId " +
             "WHERE w.usersId = :user " +
-            "AND w.id > :cursor "+
+            "AND(:cursor = 0 OR w.id < :cursor) "+
             "ORDER BY w.createdAt DESC ")
     List<Object[]> findWorkoutWithCardioAndStrength(
             @Param("user") User user,

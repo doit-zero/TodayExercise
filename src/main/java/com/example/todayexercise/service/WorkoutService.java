@@ -13,6 +13,7 @@ import com.example.todayexercise.repository.StrengthEx.StrengthExRepository;
 import com.example.todayexercise.repository.Workout.WorkoutRepository;
 import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
@@ -97,5 +98,34 @@ public class WorkoutService {
         }
 
         return resultList;
+    }
+
+    public List<Map<String,Object>> getAllWorkoutList(User user, Long cursor, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(0,pageSize);
+
+        List<Object[]>  workoutList = workoutRepository.findWorkoutWithCardioAndStrength(user,cursor,pageRequest);
+        if(workoutList.isEmpty()) return null;
+
+        List<Map<String,Object>> convertedList = new ArrayList<>();
+
+        for(Object[] workout : workoutList ) {
+            Map<String, Object> resultMap = new LinkedHashMap<>();
+
+            resultMap.put("workoutId", workout[0]);
+            resultMap.put("createdAt", workout[1]);
+            resultMap.put("cardioExTime", workout[2]);
+            resultMap.put("caExName", workout[3]);
+            resultMap.put("km", workout[4]);
+            resultMap.put("strengthTime", workout[5]);
+            resultMap.put("part", workout[6]);
+            resultMap.put("stExName", workout[7]);
+            resultMap.put("kg", workout[8]);
+            resultMap.put("rep", workout[9]);
+            resultMap.put("set", workout[10]);
+
+            convertedList.add(resultMap);
+        }
+
+        return convertedList;
     }
 }

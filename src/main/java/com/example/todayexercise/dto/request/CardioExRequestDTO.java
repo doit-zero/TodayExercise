@@ -11,6 +11,6 @@ import java.util.List;
 public class CardioExRequestDTO {
     List<CardioExDTO> CardioEx;
 
-    @Schema(description = "운동 시간", example = "00:00:02")
+    @Schema(description = "운동 시간", example = "6000")
     private String workTime;
 }

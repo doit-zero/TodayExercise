@@ -2,7 +2,6 @@ package com.example.todayexercise.service;
 
 import com.example.todayexercise.dto.request.LoginDTO;
 import com.example.todayexercise.dto.request.SingUpDTO;
-import com.example.todayexercise.dto.request.UserUpdateDTO;
 import com.example.todayexercise.entity.User;
 import com.example.todayexercise.exception.domain.User.UserErrorCode;
 import com.example.todayexercise.exception.domain.User.UserException;
@@ -13,8 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -22,6 +24,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final S3Service s3Service;
 
     @Transactional
     public String signup(SingUpDTO signup) {
@@ -54,13 +57,28 @@ public class UserService {
 
 
     @Transactional
-    public String update(User user, UserUpdateDTO userUpdateDTO) {
-        if(user == null) throw new UserException(UserErrorCode.NOT_EXIST_USER);
-        user.setPassword(passwordEncoder.encode(userUpdateDTO.getPassword()));
-        user.setNickName(userUpdateDTO.getNickName());
+    public String update(User user, String updateNickName, String updatePassword) {
+        Optional.ofNullable(updatePassword)
+                .ifPresent(password -> user.setPassword(passwordEncoder.encode(password)));
+
+        Optional.ofNullable(updateNickName)
+                .ifPresent(user::setNickName);
+
         userRepository.save(user);
-        return "회원정보 변경 완료";
+        return "정보 수정 완료";
     }
+
+    @Transactional
+    public String updateImage(User user, MultipartFile imageFIle ) {
+        Optional.ofNullable(imageFIle)
+                .filter(file -> !file.isEmpty())
+                .ifPresent(file -> {
+                    if (user.getProfileImage() != null) s3Service.deleteImageFile(user.getProfileImage());
+                    user.setProfileImage(s3Service.uploadImageFile(imageFIle));
+                });
+        return user.getProfileImage();
+    }
+
 
     public String checkEmail(String email) {
         if(userRepository.existsByEmail(email))
@@ -73,4 +91,5 @@ public class UserService {
             throw new UserException(UserErrorCode.EXIST_NICKNAME) ;
         return "해당 nickName은 사용 가능합니다.";
     }
+
 }

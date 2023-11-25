@@ -19,4 +19,10 @@ public class StrengthExService {
         List<Tuple> getStrengthExList = strengthExRepository.getStrengthEx(user,localDate);
         return getStrengthExList.toString();
     }
+
+    public String getAllStrengthEx(User user) {
+        // TODO 커서 기반 페이지네이션 기능 구현해야함, 초기 7개 데이터 그 후에 20개씩 주고 더 이상 데이터가 없으면 false
+        List<Tuple> getAllStrengthExList = strengthExRepository.getAllStrengthEx(user);
+        return getAllStrengthExList.toString();
+    }
 }

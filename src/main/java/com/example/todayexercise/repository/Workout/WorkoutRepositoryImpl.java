@@ -1,5 +1,4 @@
 package com.example.todayexercise.repository.Workout;
-
 import com.example.todayexercise.entity.QWorkout;
 import com.example.todayexercise.entity.User;
 import com.querydsl.core.Tuple;
@@ -19,7 +18,7 @@ public class WorkoutRepositoryImpl implements WorkoutRepositoryCustom {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
-    QWorkout workout = new QWorkout("workout");
+    QWorkout workout = QWorkout.workout;
 
     @Override
     public List<Tuple> getWorkoutList(User user) {
@@ -36,4 +35,6 @@ public class WorkoutRepositoryImpl implements WorkoutRepositoryCustom {
                 )
                 .fetch();
     }
+
+
 }

@@ -3,7 +3,6 @@ package com.example.todayexercise.controller;
 import com.example.todayexercise.common.CommonResponse;
 import com.example.todayexercise.dto.request.LoginDTO;
 import com.example.todayexercise.dto.request.SingUpDTO;
-import com.example.todayexercise.dto.request.UserUpdateDTO;
 import com.example.todayexercise.entity.User;
 import com.example.todayexercise.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 @Tag(name = "유저", description = "유저 관련 API")
 @Slf4j
 @RequiredArgsConstructor
@@ -41,11 +42,21 @@ public class UserController {
         return CommonResponse.success(userService.logout(session,user));
     }
 
-    @Operation(summary = "회원정보 변경")
-    @PutMapping("/update")
-    public CommonResponse<String> update(@AuthenticationPrincipal User user, UserUpdateDTO userUpdateDTO) {
-        return CommonResponse.success(userService.update(user, userUpdateDTO));
+    @Operation(summary = "정보 수정(닉네임과 비밀번호)")
+    @PutMapping(value = "/update/userInfo")
+    public CommonResponse<String> update(@AuthenticationPrincipal User user,
+                                         @RequestParam("password") String password,
+                                         @RequestParam("nickName") String nickName) {
+        return CommonResponse.success(userService.update(user,nickName,password));
     }
+
+    @Operation(summary = "프로필 이미지 수정")
+    @PostMapping(value = "/update/profileImage",consumes = "multipart/form-data")
+    public CommonResponse<?> updateImage(@AuthenticationPrincipal User user,
+                                         @RequestParam("imageFile") MultipartFile imageFile) {
+        return CommonResponse.success(userService.updateImage(user,imageFile));
+    }
+
 
     @Operation(summary = "eamil 중복확인")
     @PostMapping("/check/email/{email}")

@@ -27,16 +27,20 @@ public class User implements Serializable {
     @Column(name = "createdAt")
     private LocalDateTime createdAt;
 
+    @Column(name = "profileImage")
+    private String profileImage;
+
     @Column(name = "isDeleted")
     private Boolean isDeleted;
 
     @Builder
-    public User(String email, String password, String nickName, LocalDateTime createdAt, Boolean isDeleted) {
+    public User(String email, String password, String nickName, LocalDateTime createdAt, Boolean isDeleted,String profileImage) {
         this.email = email;
         this.password = password;
         this.nickName = nickName;
         this.createdAt = createdAt;
         this.isDeleted = isDeleted;
+        this.profileImage = profileImage;
     }
 
     public Boolean isPasswordMatch(PasswordEncoder passwordEncoder,String password) {

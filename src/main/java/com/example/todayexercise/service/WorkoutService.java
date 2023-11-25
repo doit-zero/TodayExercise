@@ -8,11 +8,14 @@ import com.example.todayexercise.entity.CardioEx;
 import com.example.todayexercise.entity.StrengthEx;
 import com.example.todayexercise.entity.User;
 import com.example.todayexercise.entity.Workout;
+import com.example.todayexercise.exception.domain.User.UserErrorCode;
+import com.example.todayexercise.exception.domain.User.UserException;
 import com.example.todayexercise.repository.CardioEx.CardioExRepository;
 import com.example.todayexercise.repository.StrengthEx.StrengthExRepository;
 import com.example.todayexercise.repository.Workout.WorkoutRepository;
 import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -100,13 +103,27 @@ public class WorkoutService {
         return resultList;
     }
 
+    @Transactional
     public List<Map<String,Object>> getAllWorkoutList(User user, Long cursor, int pageSize) {
+        if(user == null) throw new UserException(UserErrorCode.NOT_EXIST_USER);
+
         PageRequest pageRequest = PageRequest.of(0,pageSize);
 
-        List<Object[]>  workoutList = workoutRepository.findWorkoutWithCardioAndStrength(user,cursor,pageRequest);
+        Page<Object[]> workoutList = workoutRepository.findWorkoutWithCardioAndStrength(user,cursor,pageRequest);
         if(workoutList.isEmpty()) return null;
 
         List<Map<String,Object>> convertedList = new ArrayList<>();
+
+        long remainingCount = workoutList.getTotalElements() -(cursor + workoutList.getSize());
+        boolean hasMoreData = remainingCount > 0;
+        Map<String, Object> remainingCountMap = new HashMap<>();
+        if (hasMoreData) {
+            remainingCountMap.put("남은 데이터 수", remainingCount);
+        } else {
+            remainingCountMap.put("남은 데이터 수", false);
+        }
+        convertedList.add(remainingCountMap);
+
 
         for(Object[] workout : workoutList ) {
             Map<String, Object> resultMap = new LinkedHashMap<>();

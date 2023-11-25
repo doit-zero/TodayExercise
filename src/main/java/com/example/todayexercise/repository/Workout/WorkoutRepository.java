@@ -2,6 +2,7 @@ package com.example.todayexercise.repository.Workout;
 
 import com.example.todayexercise.entity.User;
 import com.example.todayexercise.entity.Workout;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +18,7 @@ public interface WorkoutRepository extends JpaRepository<Workout,Long>,WorkoutRe
             "WHERE w.usersId = :user " +
             "AND(:cursor = 0 OR w.id < :cursor) "+
             "ORDER BY w.createdAt DESC ")
-    List<Object[]> findWorkoutWithCardioAndStrength(
+    Page<Object[]> findWorkoutWithCardioAndStrength(
             @Param("user") User user,
             @Param("cursor") Long cursor,
             Pageable pageRequest);

@@ -57,23 +57,28 @@ public class UserService {
 
 
     @Transactional
-    public String update(User user, String updateNickName, String updatePassword, MultipartFile imageFIle) {
+    public String update(User user, String updateNickName, String updatePassword) {
         Optional.ofNullable(updatePassword)
                 .ifPresent(password -> user.setPassword(passwordEncoder.encode(password)));
 
         Optional.ofNullable(updateNickName)
                 .ifPresent(user::setNickName);
 
-        Optional.ofNullable(imageFIle)
-                        .filter(file -> !file.isEmpty())
-                                .ifPresent(file -> {
-                                    if (user.getProfileImage() != null) s3Service.deleteImageFile(user.getProfileImage());
-                                    user.setProfileImage(s3Service.uploadImageFile(imageFIle));
-                                });
-
         userRepository.save(user);
-        return "회원정보 변경 완료";
+        return "정보 수정 완료";
     }
+
+    @Transactional
+    public String updateImage(User user, MultipartFile imageFIle ) {
+        Optional.ofNullable(imageFIle)
+                .filter(file -> !file.isEmpty())
+                .ifPresent(file -> {
+                    if (user.getProfileImage() != null) s3Service.deleteImageFile(user.getProfileImage());
+                    user.setProfileImage(s3Service.uploadImageFile(imageFIle));
+                });
+        return user.getProfileImage();
+    }
+
 
     public String checkEmail(String email) {
         if(userRepository.existsByEmail(email))

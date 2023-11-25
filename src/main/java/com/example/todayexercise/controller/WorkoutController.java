@@ -55,6 +55,4 @@ public class WorkoutController {
         return CommonResponse.success(workoutService.getAllWorkoutList(user,cursor,pageSize));
     }
 
-
-
 }

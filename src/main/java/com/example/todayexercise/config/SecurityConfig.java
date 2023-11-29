@@ -1,7 +1,6 @@
 package com.example.todayexercise.config;
 
 import com.example.todayexercise.security.UserAuthenticationFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;

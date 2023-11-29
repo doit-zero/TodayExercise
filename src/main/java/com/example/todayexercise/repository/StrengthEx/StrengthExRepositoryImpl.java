@@ -2,7 +2,6 @@ package com.example.todayexercise.repository.StrengthEx;
 
 import com.example.todayexercise.entity.QStrengthEx;
 import com.example.todayexercise.entity.User;
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

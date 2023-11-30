@@ -4,7 +4,7 @@ on:
     branches: [main]
     
 env:
-  S3_BUCKET_NAME: couple-s3
+  S3_BUCKET_NAME: todayex-s3
   PROJECT_NAME: TodayEx
 
 jobs:

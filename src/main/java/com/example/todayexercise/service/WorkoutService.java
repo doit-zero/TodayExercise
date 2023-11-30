@@ -114,18 +114,14 @@ public class WorkoutService {
 
         List<Map<String,Object>> convertedList = new ArrayList<>();
 
-        long remainingCount = workoutList.getTotalElements() -(cursor + workoutList.getSize());
-        boolean hasMoreData = remainingCount > 0;
-        Map<String, Object> remainingCountMap = new HashMap<>();
-        if (hasMoreData) {
-            remainingCountMap.put("남은 데이터 수", remainingCount);
-        } else {
-            remainingCountMap.put("남은 데이터 수", false);
+        if(cursor == 0){
+            Object[] firstObject = workoutList.getContent().get(0);
+            cursor = (Long) firstObject[0] + 1;
         }
-        convertedList.add(remainingCountMap);
 
+        long remainingCount = workoutRepository.countWorkoutsBeforeCursor(user,cursor);
 
-        for(Object[] workout : workoutList ) {
+        for (Object[] workout : workoutList) {
             Map<String, Object> resultMap = new LinkedHashMap<>();
 
             resultMap.put("workoutId", workout[0]);
@@ -139,10 +135,15 @@ public class WorkoutService {
             resultMap.put("kg", workout[8]);
             resultMap.put("rep", workout[9]);
             resultMap.put("set", workout[10]);
+            resultMap.put("remainingData", remainingCount == 1 ? false : true );
 
             convertedList.add(resultMap);
-        }
 
+            if (remainingCount > 1) {
+                --remainingCount;
+            }
+
+        }
         return convertedList;
     }
 }

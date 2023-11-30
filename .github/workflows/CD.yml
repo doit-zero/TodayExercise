@@ -68,9 +68,9 @@ jobs:
       - name: Deploy
         run: |
           aws deploy create-deployment \
-          --application-name githubaction-test \
+          --application-name TodayEx-codeDeploy \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
-          --deployment-group-name githubaction-test-group \
+          --deployment-group-name TodayEx-group \
           --ignore-application-stop-failures \
           --file-exists-behavior OVERWRITE \
           --s3-location bucket=couple-s3,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip \

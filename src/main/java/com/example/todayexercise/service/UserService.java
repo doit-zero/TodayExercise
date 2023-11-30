@@ -28,6 +28,9 @@ public class UserService {
 
     @Transactional
     public String signup(SingUpDTO signup) {
+        if(userRepository.existsByEmail(signup.getEmail())) throw new UserException(UserErrorCode.EXIST_EMAIL);
+        if(userRepository.existsByNickName(signup.getNickName())) throw new UserException(UserErrorCode.EXIST_NICKNAME);
+
         User user = User.builder()
                 .email(signup.getEmail())
                 .password(passwordEncoder.encode(signup.getPassword()))

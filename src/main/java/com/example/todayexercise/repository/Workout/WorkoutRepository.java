@@ -24,7 +24,11 @@ public interface WorkoutRepository extends JpaRepository<Workout,Long>,WorkoutRe
             Pageable pageRequest);
 
 
-    @Query("SELECT COUNT(w) FROM Workout w WHERE w.usersId = :user AND w.id < :cursor")
+    @Query("SELECT COUNT(w) " +
+            "FROM Workout w " +
+            "LEFT JOIN CardioEx ce ON w = ce.workoutId " +
+            "LEFT JOIN StrengthEx se ON w = se.workoutId " +
+            "WHERE w.usersId = :user AND w.id < :cursor")
     Long countWorkoutsBeforeCursor(@Param("user") User user, @Param("cursor") Long cursor);
 
 }

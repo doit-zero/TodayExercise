@@ -39,7 +39,7 @@ public class WorkoutController {
         return CommonResponse.success(workoutService.recordCardioEx(user,workoutMap));
     }
 
-    @Operation(summary = "오늘 날짜 기준으로 일주일 전 요일별 운동 시간 기록 가져오기")
+    @Operation(summary = "일주일 요일별 운동 시간 기록 가져오기")
     @GetMapping
     public CommonResponse<List<Map<String,Object>>> getWorkoutList(
             @AuthenticationPrincipal User user) {

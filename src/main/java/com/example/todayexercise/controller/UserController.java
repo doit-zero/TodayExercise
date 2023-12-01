@@ -45,8 +45,8 @@ public class UserController {
     @Operation(summary = "정보 수정(닉네임과 비밀번호)")
     @PutMapping(value = "/update/userInfo")
     public CommonResponse<String> update(@AuthenticationPrincipal User user,
-                                         @RequestParam("password") String password,
-                                         @RequestParam("nickName") String nickName) {
+                                         @RequestParam(value = "password",required = false) String password,
+                                         @RequestParam(value = "nickName",required = false) String nickName) {
         return CommonResponse.success(userService.update(user,nickName,password));
     }
 

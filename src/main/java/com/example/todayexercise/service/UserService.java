@@ -48,7 +48,7 @@ public class UserService {
         if(user == null || !user.isPasswordMatch(passwordEncoder, loginDTO.getPassword()))
             throw new UserException(UserErrorCode.FAIL_TO_LOGIN);
         session.setAttribute("user",user);
-        return session.getId();
+        return "로그인 완료";
     }
 
     public String logout(HttpSession session,User user) {

@@ -26,6 +26,13 @@ cloud:
       accessKey: ${S3_ACCESS_KEY}
       secretKey: ${S3_SECRET_KEY}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+
+
 server:
   port: 8080
 

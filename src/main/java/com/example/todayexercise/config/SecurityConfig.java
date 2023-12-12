@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 
@@ -34,7 +35,7 @@ public class SecurityConfig {
                 .cors(corsCustomize -> corsCustomize.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowCredentials(true);
-                    config.setAllowedOriginPatterns(Collections.singletonList("*"));
+                    config.setAllowedOrigins(Arrays.asList("https://today-exercise.vercel.app"));
                     config.addAllowedMethod(HttpMethod.OPTIONS);
                     config.addAllowedMethod(HttpMethod.GET);
                     config.addAllowedMethod(HttpMethod.POST);

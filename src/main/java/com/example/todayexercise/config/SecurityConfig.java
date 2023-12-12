@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .cors(corsCustomize -> corsCustomize.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowCredentials(true);
-                    config.setAllowedOrigins(Arrays.asList("https://today-exercise.vercel.app"));
+                    config.addAllowedOriginPattern("*");
                     config.addAllowedMethod(HttpMethod.OPTIONS);
                     config.addAllowedMethod(HttpMethod.GET);
                     config.addAllowedMethod(HttpMethod.POST);

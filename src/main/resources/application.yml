@@ -34,7 +34,10 @@ management:
 
 
 server:
-  port: 8080
-
-
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: true
+        same-site: none
 

@@ -59,17 +59,6 @@ public class UserService {
     }
 
 
-    @Transactional
-    public String update(User user, String updateNickName, String updatePassword) {
-        Optional.ofNullable(updatePassword)
-                .ifPresent(password -> user.setPassword(passwordEncoder.encode(password)));
-
-        Optional.ofNullable(updateNickName)
-                .ifPresent(user::setNickName);
-
-        userRepository.save(user);
-        return "정보 수정 완료";
-    }
 
     @Transactional
     public String updateImage(User user, MultipartFile imageFIle ) {
@@ -95,4 +84,25 @@ public class UserService {
         return "해당 nickName은 사용 가능합니다.";
     }
 
+    @Transactional
+    public String updateNickName(User user, String nickName) {
+        Optional.ofNullable(nickName)
+                .ifPresent(user::setNickName);
+
+        userRepository.save(user);
+        return "닉네임 수정 완료";
+    }
+
+    @Transactional
+    public String updatePassword(User user, String oldPassword,String newPassword) {
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new UserException(UserErrorCode.INCORRECT_PASSWORD);
+        }
+
+        Optional.ofNullable(newPassword)
+                .ifPresent(password -> user.setPassword(passwordEncoder.encode(password)));
+
+        userRepository.save(user);
+        return "비밀번호 수정 완료";
+    }
 }

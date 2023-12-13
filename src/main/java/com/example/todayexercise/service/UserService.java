@@ -100,7 +100,7 @@ public class UserService {
         }
 
         Optional.ofNullable(newPassword)
-                .ifPresent(password -> user.setPassword(passwordEncoder.encode(password)));
+                .ifPresent(password -> user.setPassword(passwordEncoder.encode(newPassword)));
 
         userRepository.save(user);
         return "비밀번호 수정 완료";

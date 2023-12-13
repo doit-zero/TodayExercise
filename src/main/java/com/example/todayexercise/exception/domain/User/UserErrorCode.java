@@ -12,6 +12,7 @@ public enum UserErrorCode {
     NOT_EXIST_USER("존재하지 않는 유저입니다.", HttpStatus.BAD_REQUEST.value()),
     FAIL_TO_UPDATE("업데이트가 실패하였습니다.",HttpStatus.BAD_REQUEST.value()),
     FAIL_TO_DELETE("삭제를 실패하였습니다.",HttpStatus.BAD_REQUEST.value()),
+    INCORRECT_PASSWORD("비밀번호가 틀렸습니다.",HttpStatus.BAD_REQUEST.value()),
 
     // 409
     FAIL_TO_SAVE("서버 측의 문제로 데이터 저장에 실패했습니다. 다시 한 번 시도해주세요",HttpStatus.CONFLICT.value()),

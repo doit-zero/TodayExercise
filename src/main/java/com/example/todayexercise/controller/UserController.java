@@ -42,12 +42,19 @@ public class UserController {
         return CommonResponse.success(userService.logout(session,user));
     }
 
-    @Operation(summary = "정보 수정(닉네임과 비밀번호)")
-    @PutMapping(value = "/update/userInfo")
-    public CommonResponse<String> update(@AuthenticationPrincipal User user,
-                                         @RequestParam(value = "password",required = false) String password,
+    @Operation(summary = "닉네임 변경")
+    @PutMapping(value = "/update/nickName")
+    public CommonResponse<String> updateNickName(@AuthenticationPrincipal User user,
                                          @RequestParam(value = "nickName",required = false) String nickName) {
-        return CommonResponse.success(userService.update(user,nickName,password));
+        return CommonResponse.success(userService.updateNickName(user,nickName));
+    }
+
+    @Operation(summary = "비밀번호 변경")
+    @PutMapping(value = "/update/password")
+    public CommonResponse<String> updatePassword(@AuthenticationPrincipal User user,
+                                         @RequestParam(value = "oldPassword",required = false) String oldPassword,
+                                                 @RequestParam(value = "newPassword",required = false) String newPassword) {
+        return CommonResponse.success(userService.updatePassword(user,oldPassword,newPassword));
     }
 
     @Operation(summary = "프로필 이미지 수정")

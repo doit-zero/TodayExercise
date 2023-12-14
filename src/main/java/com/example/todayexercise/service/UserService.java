@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -104,5 +106,12 @@ public class UserService {
 
         userRepository.save(user);
         return "비밀번호 수정 완료";
+    }
+
+    public Map<String,String> getInfo(User user) {
+        Map<String,String> info = new HashMap<>();
+        info.put("nickName",user.getNickName());
+        info.put("profileImage",user.getProfileImage());
+        return info;
     }
 }

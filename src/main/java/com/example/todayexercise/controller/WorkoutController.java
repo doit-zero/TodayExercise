@@ -61,5 +61,4 @@ public class WorkoutController {
         return "상태 이상 무!";
     }
 
-
 }

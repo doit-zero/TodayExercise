@@ -110,9 +110,20 @@ public class UserService {
     }
 
     public Map<String,String> getInfo(User user) {
+        User updatedUser = userRepository.findByEmail(user.getEmail());
         Map<String,String> info = new HashMap<>();
-        info.put("nickName",user.getNickName());
-        info.put("profileImage",user.getProfileImage());
+        info.put("nickName",updatedUser.getNickName());
+        info.put("profileImage",updatedUser.getProfileImage());
         return info;
     }
+
+
+
+
+//    public Map<String,String> getInfo(User user) {
+//        Map<String,String> info = new HashMap<>();
+//        info.put("nickName",user.getNickName());
+//        info.put("profileImage",user.getProfileImage());
+//        return info;
+//    }
 }

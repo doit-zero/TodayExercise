@@ -69,6 +69,7 @@ public class UserService {
                 .ifPresent(file -> {
                     if (user.getProfileImage() != null) s3Service.deleteImageFile(user.getProfileImage());
                     user.setProfileImage(s3Service.uploadImageFile(imageFIle));
+                    userRepository.save(user);
                 });
         return user.getProfileImage();
     }

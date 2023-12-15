@@ -90,7 +90,7 @@ public class UserController {
 
     @Operation(summary = "사진,닉네임 불러오기")
     @GetMapping("/info")
-    public CommonResponse <Map<String,String>> getInfo(@AuthenticationPrincipal User user) {
+    public CommonResponse <Map<String,String>>  getInfo(@AuthenticationPrincipal User user) {
         return CommonResponse.success(userService.getInfo(user));
     }
 

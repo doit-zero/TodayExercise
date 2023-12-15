@@ -91,9 +91,8 @@ public class UserService {
     public String updateNickName(User user, String nickName) {
         Optional.ofNullable(nickName)
                 .ifPresent(user::setNickName);
-
         userRepository.save(user);
-        return "닉네임 수정 완료";
+        return user.getNickName();
     }
 
     @Transactional
@@ -117,13 +116,4 @@ public class UserService {
         return info;
     }
 
-
-
-
-//    public Map<String,String> getInfo(User user) {
-//        Map<String,String> info = new HashMap<>();
-//        info.put("nickName",user.getNickName());
-//        info.put("profileImage",user.getProfileImage());
-//        return info;
-//    }
 }

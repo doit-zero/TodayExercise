@@ -94,5 +94,4 @@ public class UserController {
         return CommonResponse.success(userService.getInfo(user));
     }
 
-
 }

@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class WorkoutService {
 
         Workout workout = Workout.builder()
                 .strengthExTime(workTime)
-                .createdAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime())
                 .usersId(user)
                 .build();
         workoutRepository.save(workout);
@@ -53,7 +54,7 @@ public class WorkoutService {
                     .set(strength.getSet())
                     .workoutId(workout)
                     .userId(user.getId())
-                    .createdAt(LocalDateTime.now())
+                    .createdAt(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime())
                     .build();
             strengthExRepository.save(strengthEx);
         }
@@ -67,7 +68,7 @@ public class WorkoutService {
 
         Workout workout = Workout.builder()
                 .cardioExTime(workTime)
-                .createdAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime())
                 .usersId(user)
                 .build();
         workoutRepository.save(workout);
@@ -76,7 +77,7 @@ public class WorkoutService {
             CardioEx cardioEx = CardioEx.builder()
                     .exName(cardio.getExName())
                     .km(cardio.getKm())
-                    .createdAt(LocalDateTime.now())
+                    .createdAt(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime())
                     .workoutId(workout)
                     .userId(user.getId())
                     .build();
@@ -93,7 +94,7 @@ public class WorkoutService {
         List<Map<String,Object>> resultList = new ArrayList<>();
 
         for (Tuple tuple: workoutList) {
-            Map<String, Object> workoutMap = new HashMap<>();
+            Map<String, Object> workoutMap = new HashMap<>(3);
             workoutMap.put("cardioExTime", tuple.get(0, String.class));
             workoutMap.put("strengthExTime", tuple.get(1, String.class));
             workoutMap.put("created_At", tuple.get(2, LocalDateTime.class));

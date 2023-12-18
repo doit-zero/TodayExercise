@@ -1,15 +1,14 @@
 package com.example.todayexercise.controller;
 
 import com.example.todayexercise.common.CommonResponse;
-import com.example.todayexercise.dto.request.SingUpDTO;
 import com.example.todayexercise.entity.User;
-import com.example.todayexercise.repository.StrengthEx.StrengthExRepository;
 import com.example.todayexercise.service.StrengthExService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -35,5 +34,6 @@ public class StrengthExController {
     public CommonResponse<?> getAllStrengthEx(@AuthenticationPrincipal User user) {
         return CommonResponse.success(strengthExService.getAllStrengthEx(user));
     }
+
 
 }

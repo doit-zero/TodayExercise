@@ -29,5 +29,4 @@ public class RedisConfig {
         redisStandaloneConfiguration.setPort(port);
         return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
-
 }

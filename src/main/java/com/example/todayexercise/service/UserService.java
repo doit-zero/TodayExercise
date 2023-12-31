@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -28,15 +29,17 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final S3Service s3Service;
 
+
     @Transactional
     public String signup(SingUpDTO signup) {
         if(userRepository.existsByEmail(signup.getEmail())) throw new UserException(UserErrorCode.EXIST_EMAIL);
         if(userRepository.existsByNickName(signup.getNickName())) throw new UserException(UserErrorCode.EXIST_NICKNAME);
 
+
         User user = User.builder()
                 .email(signup.getEmail())
                 .password(passwordEncoder.encode(signup.getPassword()))
-                .createdAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime())
                 .nickName(signup.getNickName())
                 .isDeleted(false)
                 .build();
@@ -110,7 +113,7 @@ public class UserService {
 
     public Map<String,String> getInfo(User user) {
         User updatedUser = userRepository.findByEmail(user.getEmail());
-        Map<String,String> info = new HashMap<>();
+        Map<String,String> info = new HashMap<>(2);
         info.put("nickName",updatedUser.getNickName());
         info.put("profileImage",updatedUser.getProfileImage());
         return info;

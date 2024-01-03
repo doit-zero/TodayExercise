@@ -3,6 +3,9 @@ package com.example.todayexercise.exception.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 @Getter
 @Setter
 public class CommonException extends RuntimeException{

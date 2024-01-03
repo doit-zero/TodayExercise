@@ -32,7 +32,6 @@ public class SecurityConfig {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowCredentials(true);
                     config.addAllowedOriginPattern("https://today-exercise.vercel.app/");
-                    config.addAllowedOriginPattern("http://localhost:5173/");
                     config.addAllowedMethod(HttpMethod.OPTIONS);
                     config.addAllowedMethod(HttpMethod.GET);
                     config.addAllowedMethod(HttpMethod.POST);

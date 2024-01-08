@@ -1,16 +1,25 @@
 # 오늘은 어디~?
 간편하게 운동을 기록을 저장하고 볼 수 있는 서비스
+![스크린샷 2023-12-15 오전 12 58 53](https://github.com/doit-zero/doit-zero/assets/131241458/f2384816-d60e-4901-97a2-ab487337e992)
  
 ## 개발 기간  
 2023.11 ~ 2023.12. 
 
 ## 개발 인원  
-프론트1명 / 백엔드 1명
+Front 1명 / Back 1명
 
 ## 담당 역할
 서비스 기획 및 방향성 설정 (기여도 90%)
-세션ID 기반 인증 서버 (기여도 100%)
-백엔드 서버 구축 (기여도 100%)
+sessionId 기반 인증 서버 (기여도 100%)
+Back-End 서버 구축 (기여도 100%)
+
+## Back-End Stack
+
+<img width="746" alt="스크린샷 2023-12-23 오후 11 10 29" src="https://github.com/doit-zero/doit-zero/assets/131241458/c95816dc-3537-463b-8693-cc206a4ec4fd">
+
+
+<img width="733" alt="스크린샷 2024-01-01 오후 2 59 44" src="https://github.com/doit-zero/doit-zero/assets/131241458/72535720-4abe-4364-a91b-abb6397553e3">
+
 
 ## 담당 업무 및 핵심 경험
 
@@ -28,7 +37,7 @@
     
     이전 프로젝트에서는 매번 jwt로 인증 방식을 했었습니다.
     
-    sessionID 인증 방식 또한 알고 싶었기에, 이번 프로젝트는 Redis를 인증 서버로 쓰는 것을 도전하였습니다.  
+    sessionId 인증 방식 또한 알고 싶었기에, 이번 프로젝트는 Redis를 인증 서버로 쓰는 것을 도전하였습니다.  
     
 - gitHub Actions와 aws의 서비스로 CI/CD 구축
     

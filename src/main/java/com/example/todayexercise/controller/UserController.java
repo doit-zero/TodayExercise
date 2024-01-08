@@ -15,6 +15,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 @Tag(name = "유저", description = "유저 관련 API")
 @Slf4j
 @RequiredArgsConstructor
@@ -42,12 +44,19 @@ public class UserController {
         return CommonResponse.success(userService.logout(session,user));
     }
 
-    @Operation(summary = "정보 수정(닉네임과 비밀번호)")
-    @PutMapping(value = "/update/userInfo")
-    public CommonResponse<String> update(@AuthenticationPrincipal User user,
-                                         @RequestParam(value = "password",required = false) String password,
+    @Operation(summary = "닉네임 변경")
+    @PutMapping(value = "/update/nickName")
+    public CommonResponse<String> updateNickName(@AuthenticationPrincipal User user,
                                          @RequestParam(value = "nickName",required = false) String nickName) {
-        return CommonResponse.success(userService.update(user,nickName,password));
+        return CommonResponse.success(userService.updateNickName(user,nickName));
+    }
+
+    @Operation(summary = "비밀번호 변경")
+    @PutMapping(value = "/update/password")
+    public CommonResponse<String> updatePassword(@AuthenticationPrincipal User user,
+                                         @RequestParam(value = "oldPassword",required = false) String oldPassword,
+                                                 @RequestParam(value = "newPassword",required = false) String newPassword) {
+        return CommonResponse.success(userService.updatePassword(user,oldPassword,newPassword));
     }
 
     @Operation(summary = "프로필 이미지 수정")
@@ -69,4 +78,20 @@ public class UserController {
     public CommonResponse<String> checkNickName(@Parameter(name = "nickName") @PathVariable String nickName) {
         return CommonResponse.success(userService.checkNickName(nickName));
     }
+
+    @Operation(summary = "로그인 상태 체크")
+    @PostMapping("/check")
+    public CommonResponse<String> checkState (@AuthenticationPrincipal User user) {
+        if(user != null) {
+            return CommonResponse.success("로그인 유지");
+        } else
+            return CommonResponse.error(401 ,"로그인 필요");
+    }
+
+    @Operation(summary = "사진,닉네임 불러오기")
+    @GetMapping("/info")
+    public CommonResponse <Map<String,String>>  getInfo(@AuthenticationPrincipal User user) {
+        return CommonResponse.success(userService.getInfo(user));
+    }
+
 }

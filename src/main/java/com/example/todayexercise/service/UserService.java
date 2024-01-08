@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -26,15 +29,17 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final S3Service s3Service;
 
+
     @Transactional
     public String signup(SingUpDTO signup) {
         if(userRepository.existsByEmail(signup.getEmail())) throw new UserException(UserErrorCode.EXIST_EMAIL);
         if(userRepository.existsByNickName(signup.getNickName())) throw new UserException(UserErrorCode.EXIST_NICKNAME);
 
+
         User user = User.builder()
                 .email(signup.getEmail())
                 .password(passwordEncoder.encode(signup.getPassword()))
-                .createdAt(LocalDateTime.now())
+                .createdAt(LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toLocalDateTime())
                 .nickName(signup.getNickName())
                 .isDeleted(false)
                 .build();
@@ -59,17 +64,6 @@ public class UserService {
     }
 
 
-    @Transactional
-    public String update(User user, String updateNickName, String updatePassword) {
-        Optional.ofNullable(updatePassword)
-                .ifPresent(password -> user.setPassword(passwordEncoder.encode(password)));
-
-        Optional.ofNullable(updateNickName)
-                .ifPresent(user::setNickName);
-
-        userRepository.save(user);
-        return "정보 수정 완료";
-    }
 
     @Transactional
     public String updateImage(User user, MultipartFile imageFIle ) {
@@ -78,6 +72,7 @@ public class UserService {
                 .ifPresent(file -> {
                     if (user.getProfileImage() != null) s3Service.deleteImageFile(user.getProfileImage());
                     user.setProfileImage(s3Service.uploadImageFile(imageFIle));
+                    userRepository.save(user);
                 });
         return user.getProfileImage();
     }
@@ -93,6 +88,35 @@ public class UserService {
         if(userRepository.existsByNickName(nickName))
             throw new UserException(UserErrorCode.EXIST_NICKNAME) ;
         return "해당 nickName은 사용 가능합니다.";
+    }
+
+    @Transactional
+    public String updateNickName(User user, String nickName) {
+        Optional.ofNullable(nickName)
+                .ifPresent(user::setNickName);
+        userRepository.save(user);
+        return user.getNickName();
+    }
+
+    @Transactional
+    public String updatePassword(User user, String oldPassword,String newPassword) {
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new UserException(UserErrorCode.INCORRECT_PASSWORD);
+        }
+
+        Optional.ofNullable(newPassword)
+                .ifPresent(password -> user.setPassword(passwordEncoder.encode(newPassword)));
+
+        userRepository.save(user);
+        return "비밀번호 수정 완료";
+    }
+
+    public Map<String,String> getInfo(User user) {
+        User updatedUser = userRepository.findByEmail(user.getEmail());
+        Map<String,String> info = new HashMap<>(2);
+        info.put("nickName",updatedUser.getNickName());
+        info.put("profileImage",updatedUser.getProfileImage());
+        return info;
     }
 
 }

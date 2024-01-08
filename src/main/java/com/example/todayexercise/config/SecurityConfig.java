@@ -15,16 +15,14 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
-import java.util.Collections;
-
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private static final String[] PERMIT_URL_ARRAY = {
            "/swagger-resources/**","/v3/api-docs/**","/swagger-ui/**",
-            "/user/login","/user/signup","/user/check/**","/workout/**"
+            "/user/login","/user/signup","/user/check/**","/workout/**",
+            "/actuator/prometheus"
     };
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,7 +31,7 @@ public class SecurityConfig {
                 .cors(corsCustomize -> corsCustomize.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowCredentials(true);
-                    config.setAllowedOriginPatterns(Collections.singletonList("*"));
+                    config.addAllowedOriginPattern("https://today-exercise.vercel.app/");
                     config.addAllowedMethod(HttpMethod.OPTIONS);
                     config.addAllowedMethod(HttpMethod.GET);
                     config.addAllowedMethod(HttpMethod.POST);
@@ -56,4 +54,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+
 }

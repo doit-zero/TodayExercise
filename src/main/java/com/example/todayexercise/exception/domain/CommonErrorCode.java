@@ -21,8 +21,5 @@ public enum CommonErrorCode {
     private final String description;
     private final Integer status;
 
-    public enum NOT_FOUND_MEDIA_FILES {
-
-    }
 
 }

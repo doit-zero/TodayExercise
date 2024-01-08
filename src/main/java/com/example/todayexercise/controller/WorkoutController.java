@@ -55,4 +55,10 @@ public class WorkoutController {
         return CommonResponse.success(workoutService.getAllWorkoutList(user,cursor,pageSize));
     }
 
+    @Operation(summary = "헬스 체크")
+    @GetMapping("/check")
+    public String healthCheck() {
+        return "상태 이상 무!";
+    }
+
 }
